@@ -3,9 +3,13 @@
 # SN4S ver 0.1
 
 import io
+
 post_info_tags = ['date: ', 'url: ']
 def readMd(fn):
-    # Read single markdown file and get all contents extracted
+    # Read single markdown file and get all contents extracted and returns:
+    ## post_dict - {title:[paras]}
+    ##           - post_dict['post_info']: post infomartion tags
+    ## titles    - [title]
     file_opr = io.open(fn,'r',encoding='utf-8')
     file_content = file_opr.readlines()
     file_content = [l.replace('\n','') for l in file_content if l.replace('\n','') != ''] #remove linewrap and empty lines
@@ -14,8 +18,7 @@ def readMd(fn):
         # assign contents under the title they belongs to
     post_dict = {}
     post_dict['post_info'] = []
-    root = titles[0] # use the head title as root key for if there is no sub-level title in the begining
-    post_dict[root] = []
+    post_dict['title0'] = []
     for l in file_content:
         if l.startswith('# '):# the head title level-0 
             post_dict['post_title'] = l
@@ -23,7 +26,7 @@ def readMd(fn):
             if any(l.startswith(pi_tag) for pi_tag in post_info_tags): #post info snippets
                 post_dict['post_info'].append(l)
             elif l.startswith('##'): # level-1 title
-                current_title = l
+                current_title = 'title'+str(titles.index(l))
                 post_dict[current_title] = []
             else:
                 post_dict[current_title].append(l)
@@ -34,8 +37,10 @@ def printPost(post_dict,titles):
     for tag in post_dict['post_info']:
         print(tag)
     for k in titles:
-        print('\n'+k)
-        for p in post_dict[k]:
+        seq = titles.index(k)
+        title_seq = 'title'+str(seq)
+        print('\n'+k+' '+title_seq)
+        for p in post_dict[title_seq]:
             print('\t'+p)
 
 
