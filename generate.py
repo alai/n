@@ -4,6 +4,7 @@
 
 import io
 import os
+import re
 import jinja2
 
 post_info_tags = ['date: ', 'url: ']
@@ -17,11 +18,12 @@ def titleListToDict(titles):
 
 def readMd(fn):
     # Read single markdown file and get all contents extracted and returns:
-    # put all extracted data into the post_data for rendering in the template
+    # put all extracted data into the post_data for the next step rendering in the template
     #   - post_data['titles']       all titiles in sequence
     #   - post_data['post_info']    post info tags like, data, url, etc
     #   - post_data['title_id']     title to it id 'title(n)'
     #   - post_data['post_title']   the post title (title0)
+    #   - post_data['footnotes']    footnote : footnote_id dictionary
 
     file_opr = io.open(fn,'r',encoding='utf-8')
     file_content = file_opr.readlines()
@@ -31,11 +33,16 @@ def readMd(fn):
     clean_titles = [t.replace('#','').strip() for t in titles]
     title_id = titleListToDict(clean_titles)
         # assign contents under the title they belongs to
+
+    pattern_footnote = re.compile('^\[\d+\] ') # regex to identify footnote statswith '[1] ' or '[23] '..
+    pattern_sup = re.compile("\[([^\[]+)\]\((\[\d\])\)") # regex to identify supscript '[word]([1]])', group1: 'word', group2: '[1]'
+    replace_sup = "<span class=\"has-note\"><span class=\"note-text\">\\1</span><sup>\\2</sup></span>" # regex replacement for the supscript
     post_data = {}
     post_data['title_id'] = title_id
     post_data['titles'] = [t.replace('#','').strip() for t in titles] #remove # from titles for HTML display
     post_data['post_info'] = []
     post_data['title0'] = []
+    post_data['footnotes'] = {}
     for l in file_content:
         if l.startswith('# '):# the head title level-0 
             post_data['post_title'] = l.replace('#','').strip()
@@ -46,7 +53,12 @@ def readMd(fn):
                 current_title = 'title'+str(titles.index(l))
                 post_data[current_title] = []
             else:
+                if bool(re.search(pattern_sup,l)):
+                    l = re.sub(pattern_sup,replace_sup,l)
                 post_data[current_title].append(l)
+                if pattern_footnote.match(l):
+                    footnote_id = 'footnote-'+pattern_footnote.match(l).group(0).strip()
+                    post_data['footnotes'][l] = footnote_id
     return post_data
 
 def printPost(post_data,titles):
