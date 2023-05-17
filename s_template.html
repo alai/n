@@ -15,7 +15,11 @@
           </div>
           <div id="post-body">
             {% for title in post['titles'][1:] %} {# need escape the post_title #}
-            <article class="para_block">
+            {% if title == 'Footnotes' %} <!-- add '.footnotes' class if it's a footnotes para -->
+              <article class="para_block footnotes">
+            {% else %}
+              <article class="para_block">
+            {% endif %}
             <h2 id="{{ post['title_id'][title] }}">{{ title }}</h2>
               {% for para in post[post['title_id'][title]] %}
               <p>{{ para }}</p>

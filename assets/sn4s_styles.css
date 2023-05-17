@@ -45,15 +45,18 @@ h2 {
   padding-top: 0.6em;
 }
 
-.has-note:hover > sup {
+.has-note:hover > sup { /*sup number*/
   /* border-bottom: 2px solid #c0c0c0;  */
-  text-decoration: #ff0000 solid underline;
+  /* text-decoration: #ff0000 solid underline; */
+  background: #e5ffe9;
+  transition: background linear 0.3s;
   font-weight: 700;
 }
 
-.has-note:hover > .note-text {
-  background: #e5ffe9;
-  transition: background linear 0.3s;
+.has-note:hover > .note-text { /*the text has notes*/
+  /* background: #e5ffe9;
+  transition: background linear 0.3s; */
+  text-decoration: #ff0000 solid underline; 
 }
 
 sup {
@@ -143,4 +146,9 @@ footer {
 
 #page > layout-footer {
   grid-area: foot;
+}
+
+.footnotes {
+  font-size: small;
+  color: #999;
 }
