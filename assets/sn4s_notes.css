@@ -1,0 +1,130 @@
+@media only screen and (max-width: 450px) {
+    /* CSS for mobile devices */
+    #page {
+      display: grid;
+      width: 100%;
+      grid-template-areas: "head head head"
+                           "main main main"
+                           "foot foot foot";
+      grid-template-rows: 50px 1fr 50px;
+      grid-template-columns: 0px 1fr 0px;
+    }
+    
+    #post-title {
+      position:sticky;
+    }
+
+    .note {
+        padding-left: 4em !important;
+        padding-right: 4em !important;
+        padding-top: 2em !important;
+        padding-bottom: 2em !important;
+    }
+    .quote {
+        padding-left: 4em !important;
+        padding-right: 4em !important;
+        padding-top: 2em !important;
+        padding-bottom: 2em !important;
+    }
+  }
+
+ #page {
+    display: grid;
+    width: 100%;
+    grid-template-areas: "head head head"
+                         "main main main"
+                         "foot foot foot";
+    grid-template-rows: 50px 1fr 30px;
+    grid-template-columns: 0px 1fr 0px;
+  }
+
+#page > layout-header {
+grid-area: head;
+}
+
+
+#page > layout-main {
+grid-area: main;
+}
+
+#page > layout-footer {
+grid-area: foot;
+}
+
+body {
+  background: #feffef;
+}
+
+footer {
+  text-align: center;
+  padding-right: 200px;
+  padding-left: 150px;
+  font-size: 1.2em;
+  padding-top: 4em;
+  padding-bottom: 4em;
+  font-family: monospace;
+  color: #999;
+}
+
+ /* Note Page */
+.chapter {
+  font-size: 1.5em;
+  font-family: auto;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-right: 100px;
+  padding-left: 20px;
+  background: linen;
+}
+
+.chapter::before{
+    content: "❖ ";
+}
+
+.note {
+  font-size: 1.3em;
+  line-height: 1.4em;
+  font-family: monospace;
+  color: #555;
+  text-align: justify;
+  padding-left: 2em;
+  padding-right: 5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px dashed #c0c0c0;
+}
+
+.quote {
+  display: none; /* 默认隐藏quote */
+  font-size: 1.2em;
+  line-height: 1.4em;
+  font-family: "KaiTi SC";
+  color: #555;
+  background-color: rgb(249,246,215);
+  text-align: justify;
+  padding-left: 2em;
+  padding-right: 5em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+/* Progress bar */
+#progress-bar {
+    --scrollAmount: 0%;
+    
+    background-image: linear-gradient(120deg, #e8fa84 0%, #f4e88f 100%);
+    width: var(--scrollAmount);
+  
+    /*  background: linear-gradient(to right, #F24E1E var(--scrollAmount), transparent 0);
+    width: 100%; */
+    
+    height: 5px;
+    position: fixed;
+    top: 0;
+    margin-left: -8px;
+  }
